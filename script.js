@@ -7,12 +7,12 @@ const aboutResetTarget = document.querySelector('.about-reset-target');
 const hobbyButtons = Array.from(document.querySelectorAll('.hobby-pill'));
 
 const hobbyCopy = {
-    soccer: 'Soccer has been part of my life since I was 6, and over time it’s shaped me far beyond just competition. Playing in a team environment helped me develop communication skills, learn how to coordinate with others under pressure, and understand how small decisions affect the bigger game. As I grew, I also learned to stay composed during challenges, take feedback seriously, and focus on continuous improvement both as a player and as a person.',
-    python: 'Python and coding are where I like turning ideas into small experiments and learning by building.',
-    math: 'Math and physics give me the logic side of things, helping me connect theory to how the real world works.',
-    chess: 'Chess reflects how I like to think ahead, stay patient, and solve problems with strategy.',
-    piano: 'Piano fits my interest in discipline, pattern recognition, and building consistency over time.',
-    cooking: 'Cooking and baking give me a creative process to follow while staying precise enough to get good results.'
+    soccer: "Soccer has been part of my life since I was 6, and over time it’s shaped me far beyond just competition. Playing in a team environment helped me develop communication skills, learn how to coordinate with others under pressure, and understand how small decisions affect the bigger game.",
+    python: "Python and coding are where I like turning ideas into small experiments and learning by building.",
+    math: "Math and physics give me the logic side of things, helping me connect theory to how the real world works.",
+    chess: "Chess reflects how I like to think ahead, stay patient, and solve problems with strategy.",
+    piano: "Piano fits my interest in discipline, pattern recognition, and building consistency over time.",
+    cooking: "Cooking and baking give me a creative process to follow while staying precise enough to get good results."
 };
 
 function normalizeText(text) {
@@ -31,14 +31,10 @@ function applyTheme(theme) {
     }
 
     if (themeToggle) {
-        themeToggle.setAttribute('aria-pressed', theme === 'dark' ? 'true' : 'false');
+        themeToggle.setAttribute('aria-pressed', theme === 'dark');
     }
 
-    try {
-        localStorage.setItem('theme', theme);
-    } catch (error) {
-        // Ignore storage failures so the toggle still works in restricted environments.
-    }
+    localStorage.setItem('theme', theme);
 }
 
 function toggleTheme() {
@@ -46,129 +42,71 @@ function toggleTheme() {
 }
 
 function initThemeToggle() {
-    if (!themeToggle) {
-        return;
-    }
-
-    if (!rootElement.hasAttribute('data-theme')) {
-        applyTheme('light');
-    } else {
-        applyTheme('dark');
-    }
-
+    if (!themeToggle) return;
+    applyTheme(localStorage.getItem('theme') || 'light');
     themeToggle.addEventListener('click', toggleTheme);
 }
 
 function initTypewriter() {
-    if (!typewriter || !typewriterText) {
-        return;
-    }
+    if (!typewriter || !typewriterText) return;
 
-    const fullText = normalizeText(typewriterText.dataset.text || typewriterText.textContent || '');
-    const prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const fullText = typewriterText.dataset.text || typewriterText.textContent;
+    typewriterText.textContent = "";
 
-    if (!fullText) {
-        return;
-    }
+    let i = 0;
+    const speed = 45;
 
-    if (prefersReducedMotion) {
-        typewriterText.textContent = fullText;
-        typewriter.classList.add('is-done');
-        return;
-    }
-
-    typewriter.classList.add('is-typing');
-    typewriterText.textContent = '';
-
-    let currentIndex = 0;
-    const typingDelay = 45;
-    const startDelay = 150;
-
-    function writeNextCharacter() {
-        typewriterText.textContent = fullText.slice(0, currentIndex);
-        currentIndex += 1;
-
-        if (currentIndex <= fullText.length) {
-            window.setTimeout(writeNextCharacter, typingDelay);
-        } else {
-            window.setTimeout(() => {
-                typewriter.classList.remove('is-typing');
-                typewriter.classList.add('is-done');
-            }, 450);
+    function type() {
+        if (i < fullText.length) {
+            typewriterText.textContent += fullText.charAt(i);
+            i++;
+            setTimeout(type, speed);
         }
     }
 
-    window.setTimeout(writeNextCharacter, startDelay);
+    type();
 }
 
 function setActiveHobby(activeButton) {
-    hobbyButtons.forEach((button) => {
-        const isActive = button === activeButton;
-        button.classList.toggle('is-active', isActive);
-        button.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+    hobbyButtons.forEach(btn => {
+        btn.classList.toggle('is-active', btn === activeButton);
     });
 }
 
 let aboutSwapTimeout = null;
-const defaultAboutText = aboutCopy ? normalizeText(aboutCopy.textContent || '') : '';
+const defaultAboutText = aboutCopy ? aboutCopy.textContent : "";
 
-function swapAboutText(nextText) {
-    if (!aboutCopy || !nextText) {
-        return;
-    }
+function swapAboutText(text) {
+    if (!aboutCopy) return;
 
-    if (aboutSwapTimeout) {
-        window.clearTimeout(aboutSwapTimeout);
-    }
-
-    if (normalizeText(aboutCopy.textContent || '') === nextText) {
-        return;
-    }
+    clearTimeout(aboutSwapTimeout);
 
     aboutCopy.classList.add('is-fading');
-    aboutSwapTimeout = window.setTimeout(() => {
-        aboutCopy.textContent = nextText;
+
+    aboutSwapTimeout = setTimeout(() => {
+        aboutCopy.textContent = text;
         aboutCopy.classList.remove('is-fading');
-        aboutSwapTimeout = null;
-    }, 240);
+    }, 200);
 }
 
 function resetAbout() {
-    if (!aboutCopy) {
-        return;
-    }
-
     swapAboutText(defaultAboutText);
     setActiveHobby(null);
 }
 
 function initAboutInteractions() {
-    if (!aboutCopy) {
-        return;
-    }
-
-    hobbyButtons.forEach((button) => {
+    hobbyButtons.forEach(button => {
         button.addEventListener('click', () => {
-            const hobbyKey = button.dataset.hobby;
-            const nextText = hobbyCopy[hobbyKey];
-
-            if (!nextText) {
-                return;
-            }
+            const key = button.dataset.hobby;
+            if (!hobbyCopy[key]) return;
 
             setActiveHobby(button);
-            swapAboutText(nextText);
+            swapAboutText(hobbyCopy[key]);
         });
     });
 
     if (aboutResetTarget) {
         aboutResetTarget.addEventListener('click', resetAbout);
-        aboutResetTarget.addEventListener('keydown', (event) => {
-            if (event.key === 'Enter' || event.key === ' ') {
-                event.preventDefault();
-                resetAbout();
-            }
-        });
     }
 }
 
