@@ -102,6 +102,66 @@ body {
     backdrop-filter: blur(16px);
 }
 
+.hobby-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.hobby-pill {
+    appearance: none;
+    border: 1px solid var(--accent-line);
+    background: var(--badge-bg);
+    color: var(--text-strong);
+    padding: 9px 12px;
+    border-radius: 999px;
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 200ms ease;
+}
+
+.hobby-pill:hover {
+    transform: translateY(-2px);
+    background: var(--accent-soft-2);
+}
+
+.hobby-pill.is-active {
+    background: var(--accent-soft);
+    border-color: var(--accent-line);
+}
+
+.about-copy {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 280ms ease, transform 280ms ease, filter 280ms ease;
+    will-change: opacity, transform;
+}
+
+.about-copy.is-fading {
+    opacity: 0;
+    transform: translateY(14px);
+    filter: blur(4px);
+}
+
+.about-copy {
+    min-height: 80px; /* stops layout jumping */
+}
+
+.type-cursor {
+    display: inline-block;
+    width: 1px;
+    height: 1em;
+    background: var(--text-soft);
+    margin-left: 2px;
+    animation: blink 0.8s steps(1) infinite;
+    vertical-align: -2px;
+}
+
+@keyframes blink {
+    50% { opacity: 0; }
+}
+
 .nav-actions {
     display: flex;
     align-items: center;
@@ -119,6 +179,73 @@ body {
     opacity: 0.58;
 }
 
+.theme-toggle {
+    appearance: none;
+    border: 0;
+    background: transparent;
+    padding: 0;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.theme-toggle-track {
+    width: 54px;
+    height: 30px;
+    border-radius: 999px;
+    position: relative;
+    background: var(--accent-soft-2);
+    border: 1px solid var(--line-soft);
+    transition: background 240ms ease, box-shadow 240ms ease;
+}
+
+.theme-toggle-thumb {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    position: absolute;
+    top: 3px;
+    left: 4px;
+    background: white;
+    transition: transform 260ms ease;
+}
+
+.about-title {
+    transition: opacity 200ms ease, transform 200ms ease;
+}
+
+.typewriter-cursor {
+    animation: blink 0.7s step-end infinite;
+}
+
+/* hover glow */
+.theme-toggle:hover .theme-toggle-track {
+    background: var(--accent-soft);
+}
+
+.typewriter-cursor {
+    animation: blink 0.7s step-end infinite;
+}
+
+.typewriter.done .typewriter-cursor {
+    animation: none;
+    opacity: 1;
+}
+
+@keyframes blink {
+    50% { opacity: 0; }
+}
+
+.typewriter.pre-type .typewriter-cursor {
+    animation: blink 0.4s step-end 2;
+}
+
+/* DARK MODE POSITION */
+:root[data-theme='dark'] .theme-toggle-thumb {
+    transform: translateX(24px);
+    background: #e9edff;
+}
 /* Brand / links */
 .brand {
     color: var(--text-brand);
@@ -191,18 +318,26 @@ body {
 .site-footer {
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
-    text-align: center;
+    gap: 6px;
+    padding: 10px 20px 20px;
+    color: var(--text-soft);
+    font-size: 0.8rem;
 }
 
 .site-footer-quote {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
+    text-align: center;
+}
+
+.site-footer-quote-author {
+    display: block;
+    margin-top: 2px;
+    font-size: 0.72rem;
+    opacity: 0.8;
 }
 
 .site-footer-est {
-    margin-top: 6px;
     font-size: 0.75rem;
     opacity: 0.7;
 }
