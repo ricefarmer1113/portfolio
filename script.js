@@ -17,13 +17,13 @@ const hobbyCopy = {
 };
 
 const hobbyTitle = {
-    default: "about",
-    soccer: "a soccer player ",
-    python: "a developer",
-    math: "a mathematician",
-    chess: "a strategist",
-    piano: "a pianist",
-    cooking: "a chef"
+    default: "Kartik",
+    soccer: "A Soccer Player ",
+    python: "A Developer",
+    math: "A Mathematician",
+    chess: "A Strategist",
+    piano: "A Pianist",
+    cooking: "A Chef"
 };
 
 function normalizeText(text) {
