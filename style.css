@@ -1,5 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Inter:wght@400;500;600;700;800&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Montserrat:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
 .page-shell {
     max-width: 1180px;
     margin: 0 auto;
@@ -8,6 +8,7 @@
 
 .section-card + .section-card {
     position: relative;
+    overflow: hidden;
 }
 
 .section-card + .section-card::before {
@@ -59,9 +60,9 @@
 :root[data-theme='dark'] {
     color-scheme: dark;
     --page-glow: rgba(255, 255, 255, 0.04);
-    --page-bg-start: #10182a;
-    --page-bg-mid: #16203a;
-    --page-bg-end: #1b2640;
+    --page-bg-start: #070c16;
+    --page-bg-mid: #0c1426;
+    --page-bg-end: #101a30;
     --surface: rgba(21, 29, 47, 0.9);
     --surface-soft: rgba(23, 31, 50, 0.84);
     --surface-panel: rgba(18, 25, 42, 0.72);
@@ -109,22 +110,51 @@ body::before {
 
     animation: blobDrift 25s ease-in-out infinite;
 }
+
+body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: -1;
+
+    background: url("https://www.transparenttextures.com/patterns/noise.png");
+    opacity: 0.04;
+    mix-blend-mode: overlay;
+}
+
 @keyframes blobDrift {
     0% {
         transform: translate(0px, 0px) scale(1);
     }
-    25% {
-        transform: translate(40px, -30px) scale(1.05);
+    20% {
+        transform: translate(60px, -40px) scale(1.08);
     }
-    50% {
-        transform: translate(-30px, 50px) scale(1.1);
+    45% {
+        transform: translate(-50px, 30px) scale(1.12);
     }
-    75% {
-        transform: translate(30px, 20px) scale(1.05);
+    70% {
+        transform: translate(40px, 60px) scale(1.05);
     }
     100% {
         transform: translate(0px, 0px) scale(1);
     }
+}
+
+.section-card {
+    border-radius: 32px;
+    box-shadow:
+        0 20px 60px rgba(0,0,0,0.08),
+        inset 0 1px 0 rgba(255,255,255,0.4);
+}
+
+.section-card {
+    transition: transform 500ms var(--ease-apple), box-shadow 500ms var(--ease-apple);
+}
+
+.section-card:hover {
+    transform: translateY(-6px) scale(1.01);
+    box-shadow: 0 30px 80px rgba(0,0,0,0.12);
 }
 
 
@@ -134,7 +164,7 @@ body {
         radial-gradient(circle at top left, rgba(93,116,247,0.18), transparent 40%),
         linear-gradient(180deg, var(--page-bg-start), var(--page-bg-mid), var(--page-bg-end));
     color: var(--text-main);
-    font-family: 'Inter', 'Segoe UI', sans-serif;
+    font-family: "Montserrat",  "DM Sans", "Inter", "SF Pro Display" sans-serif;
     line-height: 1.6;
     transition: background 280ms ease, color 280ms ease;
 }
@@ -356,13 +386,13 @@ body {
 
 
 .section-card {
-    margin-top: 32px;
-    padding: 34px;
+    margin-top: 40px;
+    padding: 42px;
     background: var(--surface-panel);
     border-radius: 26px;
     border: 1px solid var(--surface-border);
     box-shadow: 0 18px 44px var(--shadow-soft);
-    transition: transform 300ms ease, box-shadow 300ms ease;
+    transition: transform 500ms var(--ease-apple), box-shadow 500ms var(--ease-apple);
 }
 
 .section-card:hover {
@@ -467,5 +497,241 @@ body {
 
     .nav-bridge-line::after {
         width: 30%;
+    }
+}
+
+/* ===================== PREMIUM MOTION PATCH ===================== */
+
+/* stronger, smoother background motion */
+body::before {
+    animation: blobDrift 40s ease-in-out infinite;
+    filter: blur(38px) saturate(1.5);
+    opacity: 0.92;
+}
+
+/* upgraded drift (less robotic, more organic) */
+@keyframes blobDrift {
+    0%   { transform: translate(0,0) scale(1); }
+    20%  { transform: translate(60px,-40px) scale(1.05); }
+    45%  { transform: translate(-50px,30px) scale(1.1); }
+    70%  { transform: translate(40px,60px) scale(1.08); }
+    100% { transform: translate(0,0) scale(1); }
+}
+
+/* card feel upgrade (does NOT break your layout) */
+.section-card {
+    transition: transform 500ms var(--ease-apple), box-shadow 500ms var(--ease-apple);
+}
+
+.section-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 30px 80px rgba(0,0,0,0.12);
+}
+
+/* softer premium glow on hover pills */
+.hobby-pill:hover {
+    transform: translateY(-2px) scale(1.03);
+}
+
+/* subtle depth lift on cards inside grids */
+.info-card:hover,
+.project-card:hover,
+.contact-card:hover {
+    transform: translateY(-5px);
+}
+
+/* dark mode glow boost (fixes your “flat” issue) */
+:root[data-theme='dark'] body::before {
+    opacity: 1;
+    filter: blur(42px) saturate(1.7) brightness(1.1);
+}
+
+:root[data-theme='dark'] body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(circle at center, rgba(0,0,0,0.25), transparent 60%);
+}
+
+.section-card {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 600ms ease, transform 600ms ease;
+}
+
+.section-card.in-view {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.section-card {
+    position: relative;
+    overflow: hidden;
+}
+.section-heading h2 {
+    font-size: 1.8rem;
+    letter-spacing: -0.02em;
+}
+
+.hobby-pill {
+    transition: transform 180ms ease, box-shadow 180ms ease;
+}
+
+.hobby-pill:hover {
+    transform: translateY(-3px) scale(1.03);
+    box-shadow: 0 8px 18px rgba(0,0,0,0.08);
+}
+
+.parallax-layer {
+    transform: translateY(0);
+    will-change: transform;
+}
+.parallax-layer {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.section-card > *:not(.parallax-layer) {
+    position: relative;
+    z-index: 1;
+}
+
+.parallax-layer {
+    background: radial-gradient(circle at 30% 30%, rgba(144,164,255,0.18), transparent 60%);
+    transform: translateY(0);
+    will-change: transform;
+}
+
+.section-card {
+    opacity: 0;
+    transform: translateY(30px) scale(0.98);
+    transition: opacity 700ms ease, transform 700ms ease;
+}
+
+.section-card.in-view {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+.section-card {
+    backdrop-filter: blur(14px);
+}
+
+.hero {
+    background: radial-gradient(circle at top, rgba(144,164,255,0.18), transparent 60%);
+}
+.hero {
+    transform: none !important;
+}
+
+.section-card:hover {
+    transform: translateY(-6px) scale(1.01);
+}
+
+:root {
+    --ease-apple: cubic-bezier(0.4, 0, 0.2, 1);
+    --ease-smooth: cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.section-card:hover {
+    transition: transform 220ms var(--ease-apple), box-shadow 220ms var(--ease-apple);
+}
+
+.hobby-pill {
+    transition: transform 220ms var(--ease-apple), box-shadow 220ms var(--ease-apple);
+}
+
+body {
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "SF Pro Display",
+        "Segoe UI",
+        sans-serif;
+}
+
+h1, .hero-title {
+    font-family: "Space Grotesk", sans-serif;
+}
+
+h2, h3 {
+    font-family: "DM Sans", sans-serif;
+}
+
+.brand {
+    font-family: "Montserrat", sans-serif;
+}
+
+.hero h1 {
+    font-family: "Space Grotesk", sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.04em;
+}
+
+.nav-bridge-line {
+    flex: 1 1 auto;
+    height: 2px;
+    border-radius: 999px;
+
+    background: linear-gradient(
+        90deg,
+        rgba(111,132,255,0.05),
+        rgba(111,132,255,0.45),
+        rgba(111,132,255,0.05)
+    );
+
+    background-size: 250% 100%;
+    animation: bridgeFlow 8s ease-in-out infinite;
+}
+
+@keyframes bridgeFlow {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.nav-bridge-line {
+    flex: 1 1 auto;
+    height: 2px;
+    border-radius: 999px;
+
+    background: linear-gradient(
+        90deg,
+        rgba(111,132,255,0.15),
+        rgba(111,132,255,0.9),
+        rgba(111,132,255,0.15)
+    );
+
+    background-size: 250% 100%;
+
+    animation: bridgePulse 3s cubic-bezier(.4,0,.2,1) infinite;
+}
+
+@keyframes bridgePulse {
+    0% {
+        background-position: 0% 50%;
+        opacity: 0.5;
+        transform: scaleX(0.97);
+    }
+
+    50% {
+        background-position: 100% 50%;
+        opacity: 1;
+        transform: scaleX(1);
+    }
+
+    100% {
+        background-position: 0% 50%;
+        opacity: 0.5;
+        transform: scaleX(0.97);
     }
 }

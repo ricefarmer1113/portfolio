@@ -197,3 +197,71 @@ function initAboutInteractions() {
 initThemeToggle();
 initTypewriter();
 initAboutInteractions();
+
+const cards = document.querySelectorAll(".section-card");
+
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+            setTimeout(() => {
+                entry.target.classList.add("in-view");
+            }, i * 120);
+        }
+    });
+}, { threshold: 0.15 });
+
+cards.forEach(card => observer.observe(card));
+
+document.querySelectorAll(".section-card").forEach(card => {
+    let x = 0, y = 0;
+    let cx = 0, cy = 0;
+
+    card.addEventListener("mousemove", (e) => {
+        const rect = card.getBoundingClientRect();
+        x = e.clientX - rect.left;
+        y = e.clientY - rect.top;
+    });
+
+    function animate() {
+        // smooth follow (this removes flashlight feel)
+        cx += (x - cx) * 0.08;
+        cy += (y - cy) * 0.08;
+
+        card.style.background = `
+            radial-gradient(circle at ${cx}px ${cy}px,
+            rgba(144,164,255,0.08),
+            transparent 45%),
+            var(--surface-panel)
+        `;
+
+        requestAnimationFrame(animate);
+    }
+
+    animate();
+
+    card.addEventListener("mouseleave", () => {
+        card.style.background = "";
+    });
+});
+
+const layers = document.querySelectorAll(".section-card .parallax-layer");
+
+let scrollY = window.scrollY;
+let currentY = window.scrollY;
+
+function animate() {
+    currentY += (scrollY - currentY) * 0.08;
+
+    layers.forEach((layer, i) => {
+        const speed = 0.1 + i * 0.05;
+        layer.style.transform = `translateY(${(scrollY - currentY) * speed}px)`;
+    });
+
+    requestAnimationFrame(animate);
+}
+
+window.addEventListener("scroll", () => {
+    scrollY = window.scrollY;
+});
+
+animate();
