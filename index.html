@@ -1,151 +1,821 @@
-<!DOCTYPE html> 
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <!-- Basic page metadata and stylesheet link -->
-    <title>Kartik Thotakura | Portfolio</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script>
-        (function () {
-            document.documentElement.classList.add('js');
-            try {
-                var savedTheme = localStorage.getItem('theme');
-                var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-                var theme = savedTheme || (prefersDark ? 'dark' : 'light');
-                if (theme === 'dark') {
-                    document.documentElement.setAttribute('data-theme', 'dark');
-                }
-            } catch (error) {
-                // Ignore theme initialization errors and fall back to the default light theme.
-            }
-        })();
-    </script>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kartik Thotakura | Portfolio</title>
+
+  <script>
+    document.documentElement.classList.add("js");
+
+    try {
+      const savedTheme = localStorage.getItem("theme");
+      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+      if (savedTheme === "dark" || (!savedTheme && prefersDark)) {
+        document.documentElement.setAttribute("data-theme", "dark");
+      }
+    } catch {
+      // Theme storage can be blocked in some browser settings.
+    }
+  </script>
+
+  <style>
+    :root {
+      --bg1: #cfd8ff;
+      --bg2: #edf1ff;
+      --card: rgba(255, 255, 255, 0.72);
+      --card2: rgba(255, 255, 255, 0.86);
+      --text: #20304f;
+      --muted: #53607f;
+      --border: rgba(255, 255, 255, 0.75);
+      --accent: #5d74f7;
+      --accent-soft: rgba(95, 115, 255, 0.14);
+      --shadow: rgba(33, 48, 77, 0.1);
+    }
+
+    :root[data-theme="dark"] {
+      --bg1: #070c16;
+      --bg2: #101a30;
+      --card: rgba(18, 25, 42, 0.78);
+      --card2: rgba(23, 31, 50, 0.9);
+      --text: #e7ecff;
+      --muted: #aeb7c9;
+      --border: rgba(255, 255, 255, 0.1);
+      --accent: #90a4ff;
+      --accent-soft: rgba(144, 164, 255, 0.16);
+      --shadow: rgba(0, 0, 0, 0.28);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--text);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.6;
+      background:
+        radial-gradient(circle at 20% 25%, rgba(138, 162, 255, 0.55), transparent 35%),
+        radial-gradient(circle at 80% 15%, rgba(199, 182, 255, 0.45), transparent 38%),
+        linear-gradient(180deg, var(--bg1), var(--bg2));
+      transition: background 250ms ease, color 250ms ease;
+    }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      padding: 18px 20px;
+    }
+
+    .navbar {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 14px 22px;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      background: var(--card2);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      box-shadow: 0 12px 30px var(--shadow);
+      backdrop-filter: blur(16px);
+    }
+
+    .brand {
+      color: var(--muted);
+      text-decoration: none;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .nav-bridge-line {
+      flex: 1;
+      height: 2px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      background-size: 250% 100%;
+      animation: bridgePulse 3s ease-in-out infinite;
+    }
+
+    @keyframes bridgePulse {
+      0%, 100% {
+        background-position: 0% 50%;
+        opacity: 0.55;
+      }
+
+      50% {
+        background-position: 100% 50%;
+        opacity: 1;
+      }
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-weight: 650;
+    }
+
+    .nav-links a:hover {
+      color: var(--text);
+    }
+
+    .nav-mobile-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .theme-toggle,
+    .menu-toggle {
+      border: 0;
+      background: transparent;
+      padding: 0;
+      cursor: pointer;
+    }
+
+    .theme-toggle-track {
+      width: 54px;
+      height: 30px;
+      display: block;
+      position: relative;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      border: 1px solid var(--border);
+    }
+
+    .theme-toggle-thumb {
+      width: 22px;
+      height: 22px;
+      position: absolute;
+      top: 3px;
+      left: 4px;
+      border-radius: 50%;
+      background: white;
+      transition: transform 220ms ease;
+    }
+
+    :root[data-theme="dark"] .theme-toggle-thumb {
+      transform: translateX(24px);
+    }
+
+    .menu-toggle {
+      display: none;
+      width: 42px;
+      height: 42px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: var(--accent-soft);
+    }
+
+    .menu-toggle span {
+      display: block;
+      width: 18px;
+      height: 2px;
+      margin: 4px auto;
+      border-radius: 999px;
+      background: var(--text);
+      transition: transform 200ms ease, opacity 200ms ease;
+    }
+
+    .menu-toggle.is-open span:nth-child(1) {
+      transform: translateY(6px) rotate(45deg);
+    }
+
+    .menu-toggle.is-open span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .menu-toggle.is-open span:nth-child(3) {
+      transform: translateY(-6px) rotate(-45deg);
+    }
+
+    .page-shell {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 36px 20px 90px;
+    }
+
+    .section-card {
+      margin-top: 40px;
+      padding: 42px;
+      position: relative;
+      overflow: hidden;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 26px;
+      box-shadow: 0 18px 44px var(--shadow);
+      backdrop-filter: blur(14px);
+      scroll-margin-top: 100px;
+      transition:
+        opacity 850ms cubic-bezier(0.16, 1, 0.3, 1),
+        transform 850ms cubic-bezier(0.16, 1, 0.3, 1),
+        filter 850ms cubic-bezier(0.16, 1, 0.3, 1),
+        box-shadow 220ms ease;
+    }
+
+    .js .section-card {
+      opacity: 0;
+      transform: translateY(80px) scale(0.96);
+      filter: blur(12px);
+    }
+
+    .js .section-card.in-view {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      filter: blur(0);
+    }
+
+    .js .section-card.in-view:hover,
+    .section-card:hover {
+      transform: translateY(-5px) scale(1.01);
+      box-shadow: 0 28px 70px var(--shadow);
+    }
+
+    .hero h1 {
+      margin: 10px 0;
+      font-size: clamp(2.6rem, 6vw, 4.7rem);
+      line-height: 1.02;
+      letter-spacing: -0.03em;
+    }
+
+    .eyebrow {
+      margin: 0;
+      color: var(--accent);
+      font-weight: 800;
+      text-transform: lowercase;
+    }
+
+    .subheading {
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .intro {
+      max-width: 720px;
+      font-size: 1.05rem;
+    }
+
+    .about-grid,
+    .contact-grid {
+      display: grid;
+      gap: 18px;
+    }
+
+    .about-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .contact-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .info-card,
+    .contact-card {
+      padding: 22px;
+      background: var(--card2);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+    }
+
+    .about-reset-target {
+      cursor: pointer;
+    }
+
+    .about-copy {
+      min-height: 88px;
+      transition: opacity 200ms ease, transform 200ms ease;
+    }
+
+    .about-copy.is-fading {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+
+    .hobby-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .hobby-pill {
+      border: 1px solid rgba(95, 115, 255, 0.25);
+      background: var(--accent-soft);
+      color: var(--text);
+      padding: 9px 12px;
+      border-radius: 999px;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 180ms ease, background 180ms ease;
+    }
+
+    .hobby-pill:hover,
+    .hobby-pill.is-active {
+      transform: translateY(-2px);
+      background: rgba(95, 115, 255, 0.22);
+    }
+
+    .contact-link {
+      color: var(--accent);
+      overflow-wrap: anywhere;
+    }
+
+    .typewriter-cursor,
+    .type-cursor {
+      animation: blink 0.75s step-end infinite;
+    }
+
+    .type-cursor {
+      display: inline-block;
+      width: 1px;
+      height: 1em;
+      margin-left: 2px;
+      background: var(--muted);
+      vertical-align: -2px;
+    }
+
+    @keyframes blink {
+      50% {
+        opacity: 0;
+      }
+    }
+
+    .empty-section {
+      min-height: 80px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, transparent, var(--accent-soft));
+    }
+
+    .site-footer {
+      padding: 10px 20px 24px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+
+    .site-footer-quote-author {
+      display: block;
+      font-size: 0.75rem;
+      opacity: 0.8;
+    }
+
+    @media (max-width: 760px) {
+      .site-header {
+        padding: 12px;
+      }
+
+      .navbar {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        align-items: center;
+      }
+
+      .brand {
+        grid-column: 1;
+      }
+
+      .nav-mobile-actions {
+        grid-column: 2;
+      }
+
+      .nav-bridge-line {
+        grid-column: 1 / -1;
+        width: 100%;
+      }
+
+      .menu-toggle {
+        display: inline-block;
+      }
+
+      .nav-links {
+        grid-column: 1 / -1;
+        width: 100%;
+        display: grid;
+        gap: 8px;
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        transform: translateY(-8px);
+        transition:
+          max-height 260ms ease,
+          opacity 220ms ease,
+          transform 220ms ease;
+      }
+
+      .nav-links.is-open {
+        max-height: 280px;
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .nav-links a {
+        padding: 10px 12px;
+        border-radius: 12px;
+        background: var(--accent-soft);
+      }
+
+      .page-shell {
+        padding: 20px 12px 70px;
+      }
+
+      .section-card {
+        padding: 24px 18px;
+      }
+
+      .about-grid,
+      .contact-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero h1 {
+        font-size: clamp(2.1rem, 11vw, 3rem);
+      }
+    }
+  </style>
 </head>
+
 <body>
-    <!-- Top navigation bar with name on the left and links on the right -->
-    <header class="site-header">
-        <nav class="navbar" aria-label="Primary">
-            <a class="brand" href="#home">rice // Kartik Thotakura</a>
-            <span class="nav-bridge-line" aria-hidden="true"></span>
-            <div class="nav-actions">
-                <div class="nav-links">
-                    <a href="#home">Home</a>
-                    <a href="#about">About</a>
-                    <a href="#projects">Projects</a>
-                    <a href="#achievements">Achievements</a>
-                    <a href="#contact">Contact</a>
-                </div>
-                <button class="theme-toggle" type="button" aria-label="Toggle dark mode" aria-pressed="false">
-                    <span class="theme-toggle-track">
-                        <span class="theme-toggle-thumb"></span>
-                    </span>
-                </button>
-            </div>
-        </nav>
-    </header>
+  <header class="site-header">
+    <nav class="navbar" aria-label="Primary">
+      <a class="brand" href="#home">rice // Kartik Thotakura</a>
 
+      <span class="nav-bridge-line" aria-hidden="true"></span>
 
-    <!-- Main portfolio content -->
-    <main class="page-shell">
-        <!-- Hero section introduces the portfolio -->
-        <section class="hero section-card" id="home">
-            <p class="eyebrow">rice //</p>
-            <h1 class="typewriter" aria-label="driven by curiosity.">
-                <span class="typewriter-text" data-text="driven by curiosity."></span>
-                <span class="typewriter-cursor" aria-hidden="true">|</span>
-            </h1>
-            <p class="subheading">Soccer • STEM • Code</p>
-            <p class="intro">
-                I’m Kartik, a high school student into soccer, STEM, and coding. 
-                Most of what I learn comes from building small projects and messing around until things click.
-            </p>
-        </section>
+      <div class="nav-links" id="primary-nav">
+        <a href="#home">Home</a>
+        <a href="#about">About</a>
+        <a href="#projects">Projects</a>
+        <a href="#achievements">Achievements</a>
+        <a href="#contact">Contact</a>
+      </div>
 
-        <!-- About section with a clean bio and interest list -->
-        <section class="section-card" id="about">
-            <div class="section-heading about-reset-target" role="button" tabindex="0" aria-label="Reset About text">
-                <p class="eyebrow">about</p>
-                <h2>always thinking</h2>
-            </div>
-            <div class="about-grid">
-                <article class="info-card">
-                    <h3 class="about-title">Kartik</h3>
-                    <p class="about-copy">
-                        I’m a high school student interested in understanding how things work beneath the surface. I enjoy exploring math and physics, especially how abstract ideas connect to real-world systems. In coding, I use Python to test ideas and turn theory into something I can actually observe and experiment with.
-                    </p>
-                </article>
+      <div class="nav-mobile-actions">
+        <button class="theme-toggle" type="button" aria-label="Toggle dark mode" aria-pressed="false">
+          <span class="theme-toggle-track">
+            <span class="theme-toggle-thumb"></span>
+          </span>
+        </button>
 
-                <article class="info-card hobbies-card">
-                    <h3>Hobbies</h3>
-                    <div class="hobby-group">
-                        <p class="hobby-label">Core</p>
-                        <div class="hobby-pills">
-                            <button class="hobby-pill" type="button" data-hobby="soccer">Soccer</button>
-                            <button class="hobby-pill" type="button" data-hobby="python">Python / Coding</button>
-                            <button class="hobby-pill" type="button" data-hobby="math">Math &amp; Physics</button>
-                        </div>
-                    </div>
-                    <div class="hobby-group">
-                        <p class="hobby-label">Beyond</p>
-                        <div class="hobby-pills hobby-pills-soft">
-                            <button class="hobby-pill" type="button" data-hobby="chess">Chess</button>
-                            <button class="hobby-pill" type="button" data-hobby="piano">Piano</button>
-                            <button class="hobby-pill" type="button" data-hobby="cooking">Cooking &amp; Baking</button>
-                        </div>
-                    </div>
-                </article>
-            </div>
-        </section>
+        <button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </nav>
+  </header>
 
-        <!-- Empty projects section for future updates -->
-        <section class="section-card" id="projects">
-            <div class="section-heading">
-                <p class="eyebrow">projects</p>
-                <h2>coming soon</h2>
-            </div>
-            <div class="empty-section" aria-hidden="true"></div>
-        </section>
+  <main class="page-shell">
+    <section class="hero section-card" id="home">
+      <p class="eyebrow">rice //</p>
+      <h1 class="typewriter" aria-label="driven by curiosity.">
+        <span class="typewriter-text" data-text="driven by curiosity."></span>
+        <span class="typewriter-cursor" aria-hidden="true">|</span>
+      </h1>
+      <p class="subheading">Soccer &bull; STEM &bull; Code</p>
+      <p class="intro">
+        I&rsquo;m Kartik, a high school student into soccer, STEM, and coding.
+        Most of what I learn comes from building small projects and messing around until things click.
+      </p>
+    </section>
 
-        <!-- Empty achievements section for future updates -->
-        <section class="section-card" id="achievements">
-            <div class="section-heading">
-                <p class="eyebrow">achievements</p>
-                <h2>coming soon</h2>
-            </div>
-            <div class="empty-section" aria-hidden="true"></div>
-        </section>
+    <section class="section-card" id="about">
+      <div class="section-heading about-reset-target" role="button" tabindex="0" aria-label="Reset About text">
+        <p class="eyebrow">about</p>
+        <h2>always thinking</h2>
+      </div>
 
-        <!-- Contact section provides simple portfolio contact details -->
-        <section class="section-card" id="contact">
-            <div class="section-heading">
-                <p class="eyebrow">contact</p>
-                <h2>let&apos;s connect</h2>
-            </div>
-            <div class="contact-grid">
-                <article class="contact-card">
-                    <h3>Email</h3>
-                    <p><a class="contact-link" href="mailto:kartikthotakura11@gmail.com">kartikthotakura11@gmail.com</a></p>
-                </article>
-                <article class="contact-card">
-                    <h3>GitHub</h3>
-                    <p><a class="contact-link" href="https://github.com/ricefarmer1113" target="_blank" rel="noopener noreferrer">https://github.com/ricefarmer1113</a></p>
-                </article>
-                <article class="contact-card">
-                    <h3>Instagram</h3>
-                    <p><a class="contact-link" href="https://www.instagram.com/rxcekartik/" target="_blank" rel="noopener noreferrer">https://www.instagram.com/rxcekartik/</a></p>
-                </article>
-            </div>
-        </section>
-    </main>
-    <footer class="site-footer" aria-label="Site footer">
-    <div class="site-footer-quote">
-        <em>“Simplicity is the ultimate sophistication.”</em>
-        <span class="site-footer-quote-author">- Leonardo da Vinci</span>
-    </div>
+      <div class="about-grid">
+        <article class="info-card">
+          <h3 class="about-title">Kartik</h3>
+          <p class="about-copy">
+            I&rsquo;m a high school student interested in understanding how things work beneath the surface.
+            I enjoy exploring math and physics, especially how abstract ideas connect to real-world systems.
+            In coding, I use Python to test ideas and turn theory into something I can actually observe and experiment with.
+          </p>
+        </article>
 
-    <div class="site-footer-est">est. 2026</div>
-</footer>
-    <script src="script.js"></script>
+        <article class="info-card">
+          <h3>Hobbies</h3>
+
+          <p><strong>Core</strong></p>
+          <div class="hobby-pills">
+            <button class="hobby-pill" type="button" data-hobby="soccer">Soccer</button>
+            <button class="hobby-pill" type="button" data-hobby="python">Python / Coding</button>
+            <button class="hobby-pill" type="button" data-hobby="math">Math &amp; Physics</button>
+          </div>
+
+          <p><strong>Beyond</strong></p>
+          <div class="hobby-pills">
+            <button class="hobby-pill" type="button" data-hobby="chess">Chess</button>
+            <button class="hobby-pill" type="button" data-hobby="piano">Piano</button>
+            <button class="hobby-pill" type="button" data-hobby="cooking">Cooking &amp; Baking</button>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section-card" id="projects">
+      <div class="section-heading">
+        <p class="eyebrow">projects</p>
+        <h2>coming soon</h2>
+      </div>
+      <div class="empty-section" aria-hidden="true"></div>
+    </section>
+
+    <section class="section-card" id="achievements">
+      <div class="section-heading">
+        <p class="eyebrow">achievements</p>
+        <h2>coming soon</h2>
+      </div>
+      <div class="empty-section" aria-hidden="true"></div>
+    </section>
+
+    <section class="section-card" id="contact">
+      <div class="section-heading">
+        <p class="eyebrow">contact</p>
+        <h2>let&apos;s connect</h2>
+      </div>
+
+      <div class="contact-grid">
+        <article class="contact-card">
+          <h3>Email</h3>
+          <p>
+            <a class="contact-link" href="mailto:kartikthotakura11@gmail.com">
+              kartikthotakura11@gmail.com
+            </a>
+          </p>
+        </article>
+
+        <article class="contact-card">
+          <h3>GitHub</h3>
+          <p>
+            <a class="contact-link" href="https://github.com/ricefarmer1113" target="_blank" rel="noopener noreferrer">
+              github.com/ricefarmer1113
+            </a>
+          </p>
+        </article>
+
+        <article class="contact-card">
+          <h3>Instagram</h3>
+          <p>
+            <a class="contact-link" href="https://www.instagram.com/rxcekartik/" target="_blank" rel="noopener noreferrer">
+              instagram.com/rxcekartik
+            </a>
+          </p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <em>&ldquo;Simplicity is the ultimate sophistication.&rdquo;</em>
+    <span class="site-footer-quote-author">- Leonardo da Vinci</span>
+    <div>est. 2026</div>
+  </footer>
+
+  <script>
+    const rootElement = document.documentElement;
+    const themeToggle = document.querySelector(".theme-toggle");
+    const menuToggle = document.querySelector(".menu-toggle");
+    const navLinks = document.querySelector(".nav-links");
+    const typewriterText = document.querySelector(".typewriter-text");
+    const aboutCopy = document.querySelector(".about-copy");
+    const aboutResetTarget = document.querySelector(".about-reset-target");
+    const aboutTitle = document.querySelector(".about-title");
+    const hobbyButtons = Array.from(document.querySelectorAll(".hobby-pill"));
+
+    const hobbyCopy = {
+      soccer: "Soccer has been part of my life since I was 6, and over time it has shaped me far beyond just competition. Playing in a team environment helped me develop communication skills, learn how to coordinate with others under pressure, and understand how small decisions affect the bigger game.",
+      python: "Python and coding are where I like turning ideas into small experiments and learning by building.",
+      math: "Math and physics give me the logic side of things, helping me connect theory to how the real world works.",
+      chess: "Chess reflects how I like to think ahead, stay patient, and solve problems with strategy.",
+      piano: "Piano fits my interest in discipline, pattern recognition, and building consistency over time.",
+      cooking: "Cooking and baking give me a creative process to follow while staying precise enough to get good results."
+    };
+
+    const hobbyTitle = {
+      default: "Kartik",
+      soccer: "A Soccer Player",
+      python: "A Developer",
+      math: "A Mathematician",
+      chess: "A Strategist",
+      piano: "A Pianist",
+      cooking: "A Chef"
+    };
+
+    function safeGetTheme() {
+      try {
+        return localStorage.getItem("theme");
+      } catch {
+        return null;
+      }
+    }
+
+    function safeSetTheme(theme) {
+      try {
+        localStorage.setItem("theme", theme);
+      } catch {
+        // Storage can be blocked in some browser settings.
+      }
+    }
+
+    function preferredTheme() {
+      const savedTheme = safeGetTheme();
+
+      if (savedTheme === "dark" || savedTheme === "light") {
+        return savedTheme;
+      }
+
+      return window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches
+        ? "dark"
+        : "light";
+    }
+
+    function applyTheme(theme) {
+      if (theme === "dark") {
+        rootElement.setAttribute("data-theme", "dark");
+      } else {
+        rootElement.removeAttribute("data-theme");
+      }
+
+      themeToggle.setAttribute("aria-pressed", String(theme === "dark"));
+      safeSetTheme(theme);
+    }
+
+    function currentTheme() {
+      return rootElement.getAttribute("data-theme") === "dark" ? "dark" : "light";
+    }
+
+    themeToggle.addEventListener("click", () => {
+      applyTheme(currentTheme() === "dark" ? "light" : "dark");
+    });
+
+    applyTheme(preferredTheme());
+
+    if (menuToggle && navLinks) {
+      menuToggle.addEventListener("click", () => {
+        const isOpen = navLinks.classList.toggle("is-open");
+
+        menuToggle.classList.toggle("is-open", isOpen);
+        menuToggle.setAttribute("aria-expanded", String(isOpen));
+        menuToggle.setAttribute("aria-label", isOpen ? "Close menu" : "Open menu");
+      });
+
+      navLinks.querySelectorAll("a").forEach(link => {
+        link.addEventListener("click", () => {
+          navLinks.classList.remove("is-open");
+          menuToggle.classList.remove("is-open");
+          menuToggle.setAttribute("aria-expanded", "false");
+          menuToggle.setAttribute("aria-label", "Open menu");
+        });
+      });
+    }
+
+    function startTypewriter() {
+      const fullText = typewriterText.dataset.text || "driven by curiosity.";
+      const cursor = document.querySelector(".typewriter-cursor");
+      let index = 0;
+
+      typewriterText.textContent = "";
+
+      function typeNext() {
+        if (index < fullText.length) {
+          typewriterText.textContent += fullText[index];
+          index++;
+          setTimeout(typeNext, 45);
+        } else if (cursor) {
+          cursor.style.visibility = "hidden";
+        }
+      }
+
+      setTimeout(typeNext, 500);
+    }
+
+    let typingTimer = null;
+    let swapTimer = null;
+    const defaultAboutText = aboutCopy.textContent.replace(/\s+/g, " ").trim();
+
+    function setActiveHobby(activeButton) {
+      hobbyButtons.forEach(button => {
+        button.classList.toggle("is-active", button === activeButton);
+      });
+    }
+
+    function typeText(element, text) {
+      element.textContent = "";
+
+      const cursor = document.createElement("span");
+      cursor.className = "type-cursor";
+      element.appendChild(cursor);
+
+      let index = 0;
+
+      function typeNext() {
+        if (index < text.length) {
+          cursor.insertAdjacentText("beforebegin", text[index]);
+          index++;
+          typingTimer = setTimeout(typeNext, 18);
+        } else {
+          cursor.remove();
+        }
+      }
+
+      typeNext();
+    }
+
+    function swapAboutText(text, key = "default") {
+      clearTimeout(typingTimer);
+      clearTimeout(swapTimer);
+
+      aboutTitle.textContent = hobbyTitle[key] || hobbyTitle.default;
+      aboutCopy.classList.add("is-fading");
+
+      swapTimer = setTimeout(() => {
+        aboutCopy.classList.remove("is-fading");
+        typeText(aboutCopy, text);
+      }, 150);
+    }
+
+    function resetAbout() {
+      setActiveHobby(null);
+      swapAboutText(defaultAboutText);
+    }
+
+    hobbyButtons.forEach(button => {
+      button.addEventListener("click", () => {
+        const key = button.dataset.hobby;
+
+        if (!hobbyCopy[key]) {
+          return;
+        }
+
+        setActiveHobby(button);
+        swapAboutText(hobbyCopy[key], key);
+      });
+    });
+
+    aboutResetTarget.addEventListener("click", resetAbout);
+
+    aboutResetTarget.addEventListener("keydown", event => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        resetAbout();
+      }
+    });
+
+    function startScrollReveal() {
+      const cards = document.querySelectorAll(".section-card");
+
+      if (!("IntersectionObserver" in window)) {
+        cards.forEach(card => {
+          card.classList.add("in-view");
+        });
+
+        return;
+      }
+
+      const observer = new IntersectionObserver(
+        entries => {
+          entries.forEach((entry, index) => {
+            if (!entry.isIntersecting) {
+              return;
+            }
+
+            setTimeout(() => {
+              entry.target.classList.add("in-view");
+            }, index * 120);
+
+            observer.unobserve(entry.target);
+          });
+        },
+        {
+          threshold: 0.12,
+          rootMargin: "0px 0px -8% 0px"
+        }
+      );
+
+      cards.forEach(card => {
+        observer.observe(card);
+      });
+    }
+
+    startScrollReveal();
+    startTypewriter();
+  </script>
 </body>
 </html>
