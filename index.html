@@ -3,9 +3,20 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cellipse cx='32' cy='22' rx='25' ry='6' fill='none' stroke='%235d74f7' stroke-width='3'/%3E%3Cpath d='M5 22c0 18 11 33 27 33s27-15 27-33' fill='none' stroke='%235d74f7' stroke-width='3' stroke-linecap='round'/%3E%3Cellipse cx='19' cy='19.5' rx='4.2' ry='2.4' fill='%23ffffff' transform='rotate(-18 19 19.5)'/%3E%3Cellipse cx='32' cy='17.5' rx='4.2' ry='2.4' fill='%23ffffff' transform='rotate(8 32 17.5)'/%3E%3Cellipse cx='45' cy='19.5' rx='4.2' ry='2.4' fill='%23ffffff' transform='rotate(-10 45 19.5)'/%3E%3Cellipse cx='25' cy='24' rx='4.2' ry='2.4' fill='%23ffffff' transform='rotate(15 25 24)'/%3E%3Cellipse cx='39' cy='24' rx='4.2' ry='2.4' fill='%23ffffff' transform='rotate(-15 39 24)'/%3E%3Cellipse cx='32' cy='27' rx='4.2' ry='2.4' fill='%23ffffff'/%3E%3C/svg%3E">
+
   <title>Kartik Thotakura | Portfolio</title>
 
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet">
+
   <script>
+    if ("scrollRestoration" in history) {
+      history.scrollRestoration = "manual";
+    }
+    window.scrollTo(0, 0);
+
     document.documentElement.classList.add("js");
 
     try {
@@ -22,29 +33,27 @@
 
   <style>
     :root {
-      --bg1: #cfd8ff;
-      --bg2: #edf1ff;
-      --card: rgba(255, 255, 255, 0.72);
-      --card2: rgba(255, 255, 255, 0.86);
+      --bg1: #aebdfb;
+      --bg2: #dde4ff;
       --text: #20304f;
       --muted: #53607f;
-      --border: rgba(255, 255, 255, 0.75);
+      --border: rgba(32, 48, 79, 0.15);
       --accent: #5d74f7;
       --accent-soft: rgba(95, 115, 255, 0.14);
-      --shadow: rgba(33, 48, 77, 0.1);
+      --glow1: rgba(138, 162, 255, 0.55);
+      --glow2: rgba(199, 182, 255, 0.45);
     }
 
     :root[data-theme="dark"] {
       --bg1: #070c16;
       --bg2: #101a30;
-      --card: rgba(18, 25, 42, 0.78);
-      --card2: rgba(23, 31, 50, 0.9);
       --text: #e7ecff;
       --muted: #aeb7c9;
-      --border: rgba(255, 255, 255, 0.1);
+      --border: rgba(255, 255, 255, 0.12);
       --accent: #90a4ff;
       --accent-soft: rgba(144, 164, 255, 0.16);
-      --shadow: rgba(0, 0, 0, 0.28);
+      --glow1: rgba(90, 115, 230, 0.34);
+      --glow2: rgba(130, 100, 220, 0.28);
     }
 
     * {
@@ -59,12 +68,16 @@
       margin: 0;
       min-height: 100vh;
       color: var(--text);
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-family: "Space Grotesk", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       line-height: 1.6;
       background:
-        radial-gradient(circle at 20% 25%, rgba(138, 162, 255, 0.55), transparent 35%),
-        radial-gradient(circle at 80% 15%, rgba(199, 182, 255, 0.45), transparent 38%),
+        radial-gradient(circle at 20% 50%, var(--glow1), transparent 42%),
+        radial-gradient(circle at 80% 50%, var(--glow2), transparent 42%),
         linear-gradient(180deg, var(--bg1), var(--bg2));
+      background-attachment: scroll, scroll, scroll;
+      background-size: 100% 100vh, 100% 100vh, 100% 100%;
+      background-repeat: repeat-y, repeat-y, no-repeat;
+      background-position: 0 0, 0 50vh, 0 0;
       transition: background 250ms ease, color 250ms ease;
     }
 
@@ -72,21 +85,18 @@
       position: sticky;
       top: 0;
       z-index: 10;
-      padding: 18px 20px;
+      padding: 0;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg2);
     }
 
     .navbar {
       max-width: 1180px;
       margin: 0 auto;
-      padding: 14px 22px;
+      padding: 18px 22px;
       display: flex;
       align-items: center;
       gap: 18px;
-      background: var(--card2);
-      border: 1px solid var(--border);
-      border-radius: 22px;
-      box-shadow: 0 12px 30px var(--shadow);
-      backdrop-filter: blur(16px);
     }
 
     .brand {
@@ -94,26 +104,63 @@
       text-decoration: none;
       font-weight: 800;
       white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .brand-logo {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+      color: var(--accent);
     }
 
     .nav-bridge-line {
       flex: 1;
       height: 2px;
+      position: relative;
+      background: var(--border);
       border-radius: 999px;
-      background: linear-gradient(90deg, transparent, var(--accent), transparent);
-      background-size: 250% 100%;
-      animation: bridgePulse 3s ease-in-out infinite;
+      overflow: visible;
+    }
+
+    .nav-bridge-fill {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 0%;
+      border-radius: 999px;
+      background: var(--accent);
+      transition: width 120ms linear;
+    }
+
+    .nav-bridge-fill::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      right: 0;
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--accent);
+      transform: translate(50%, -50%);
+      box-shadow: 0 0 0 0 var(--accent-soft);
+      animation: bridgePulse 1.8s ease-out infinite;
     }
 
     @keyframes bridgePulse {
-      0%, 100% {
-        background-position: 0% 50%;
-        opacity: 0.55;
+      0% {
+        box-shadow: 0 0 0 0 var(--accent-soft);
       }
 
-      50% {
-        background-position: 100% 50%;
-        opacity: 1;
+      70% {
+        box-shadow: 0 0 0 9px transparent;
+      }
+
+      100% {
+        box-shadow: 0 0 0 0 transparent;
       }
     }
 
@@ -127,10 +174,13 @@
       color: var(--muted);
       text-decoration: none;
       font-weight: 650;
+      padding-bottom: 2px;
+      border-bottom: 2px solid transparent;
     }
 
     .nav-links a:hover {
       color: var(--text);
+      border-bottom-color: var(--accent);
     }
 
     .nav-mobile-actions {
@@ -140,11 +190,133 @@
     }
 
     .theme-toggle,
-    .menu-toggle {
+    .menu-toggle,
+    .music-toggle {
       border: 0;
       background: transparent;
       padding: 0;
       cursor: pointer;
+    }
+
+    .music-toggle {
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      color: var(--muted);
+      transition: color 180ms ease, border-color 180ms ease, background 180ms ease;
+    }
+
+    .music-toggle:hover {
+      color: var(--text);
+      border-color: var(--accent);
+    }
+
+    .music-icon {
+      width: 17px;
+      height: 17px;
+    }
+
+    .music-icon-off {
+      display: block;
+    }
+
+    .music-icon-on {
+      display: none;
+    }
+
+    .music-toggle.is-playing {
+      color: var(--accent);
+      background: var(--accent-soft);
+      border-color: var(--accent);
+    }
+
+    .music-toggle.is-playing .music-icon-on {
+      display: block;
+    }
+
+    .music-toggle.is-playing .music-icon-off {
+      display: none;
+    }
+
+    .music-control {
+      position: relative;
+    }
+
+    .volume-popover {
+      position: absolute;
+      top: calc(100% + 10px);
+      left: 50%;
+      transform: translateX(-50%) translateY(-6px);
+      width: 36px;
+      height: 110px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 0;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 160ms ease, transform 160ms ease;
+    }
+
+    .music-control:hover .volume-popover,
+    .music-control:focus-within .volume-popover {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+      pointer-events: auto;
+    }
+
+    .volume-slider {
+      writing-mode: vertical-lr;
+      direction: rtl;
+      width: 4px;
+      height: 90px;
+      appearance: none;
+      -webkit-appearance: none;
+      background: transparent;
+      cursor: pointer;
+    }
+
+    .volume-slider::-webkit-slider-runnable-track {
+      width: 4px;
+      background: var(--border);
+      border-radius: 999px;
+    }
+
+    .volume-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 14px;
+      height: 14px;
+      margin-left: -5px;
+      border-radius: 50%;
+      background: var(--accent);
+      border: 2px solid var(--bg2);
+      box-shadow: 0 0 0 1px var(--accent);
+      cursor: pointer;
+    }
+
+    .volume-slider::-moz-range-track {
+      width: 4px;
+      background: var(--border);
+      border-radius: 999px;
+    }
+
+    .volume-slider::-moz-range-thumb {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--accent);
+      border: 2px solid var(--bg2);
+      box-shadow: 0 0 0 1px var(--accent);
+      cursor: pointer;
+      border: none;
     }
 
     .theme-toggle-track {
@@ -164,7 +336,7 @@
       top: 3px;
       left: 4px;
       border-radius: 50%;
-      background: white;
+      background: var(--accent);
       transition: transform 220ms ease;
     }
 
@@ -177,8 +349,7 @@
       width: 42px;
       height: 42px;
       border: 1px solid var(--border);
-      border-radius: 14px;
-      background: var(--accent-soft);
+      background: transparent;
     }
 
     .menu-toggle span {
@@ -186,7 +357,6 @@
       width: 18px;
       height: 2px;
       margin: 4px auto;
-      border-radius: 999px;
       background: var(--text);
       transition: transform 200ms ease, opacity 200ms ease;
     }
@@ -206,43 +376,35 @@
     .page-shell {
       max-width: 1180px;
       margin: 0 auto;
-      padding: 36px 20px 90px;
+      padding: 0 20px 90px;
     }
 
     .section-card {
-      margin-top: 40px;
-      padding: 42px;
+      margin-top: 0;
+      padding: 48px 0;
       position: relative;
-      overflow: hidden;
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 26px;
-      box-shadow: 0 18px 44px var(--shadow);
-      backdrop-filter: blur(14px);
-      scroll-margin-top: 100px;
+      border-bottom: 1px solid var(--border);
+      scroll-margin-top: 90px;
       transition:
-        opacity 850ms cubic-bezier(0.16, 1, 0.3, 1),
-        transform 850ms cubic-bezier(0.16, 1, 0.3, 1),
-        filter 850ms cubic-bezier(0.16, 1, 0.3, 1),
-        box-shadow 220ms ease;
+        opacity 700ms cubic-bezier(0.16, 1, 0.3, 1),
+        transform 700ms cubic-bezier(0.16, 1, 0.3, 1),
+        filter 700ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .section-card:last-of-type {
+      border-bottom: none;
     }
 
     .js .section-card {
       opacity: 0;
-      transform: translateY(80px) scale(0.96);
-      filter: blur(12px);
+      transform: translateY(36px) scale(0.98);
+      filter: blur(6px);
     }
 
     .js .section-card.in-view {
       opacity: 1;
       transform: translateY(0) scale(1);
       filter: blur(0);
-    }
-
-    .js .section-card.in-view:hover,
-    .section-card:hover {
-      transform: translateY(-5px) scale(1.01);
-      box-shadow: 0 28px 70px var(--shadow);
     }
 
     .hero h1 {
@@ -272,7 +434,7 @@
     .about-grid,
     .contact-grid {
       display: grid;
-      gap: 18px;
+      gap: 0;
     }
 
     .about-grid {
@@ -283,12 +445,24 @@
       grid-template-columns: repeat(3, 1fr);
     }
 
-    .info-card,
+    .info-card {
+      padding: 22px 0;
+    }
+
     .contact-card {
-      padding: 22px;
-      background: var(--card2);
-      border: 1px solid var(--border);
-      border-radius: 18px;
+      padding: 22px 0;
+      border-top: 1px solid var(--border);
+    }
+
+    .about-grid .info-card:nth-child(1),
+    .contact-grid .contact-card:nth-child(1) {
+      padding-left: 0;
+    }
+
+    .info-card + .info-card,
+    .contact-card + .contact-card {
+      padding-left: 26px;
+      border-left: 1px solid var(--border);
     }
 
     .about-reset-target {
@@ -312,26 +486,38 @@
     }
 
     .hobby-pill {
-      border: 1px solid rgba(95, 115, 255, 0.25);
-      background: var(--accent-soft);
+      border: 1px solid var(--border);
+      background: transparent;
       color: var(--text);
-      padding: 9px 12px;
-      border-radius: 999px;
+      padding: 8px 12px;
       font: inherit;
       font-weight: 700;
       cursor: pointer;
-      transition: transform 180ms ease, background 180ms ease;
+      transition: background 180ms ease, border-color 180ms ease;
     }
 
     .hobby-pill:hover,
     .hobby-pill.is-active {
-      transform: translateY(-2px);
-      background: rgba(95, 115, 255, 0.22);
+      background: var(--accent-soft);
+      border-color: var(--accent);
     }
 
     .contact-link {
       color: var(--accent);
       overflow-wrap: anywhere;
+    }
+
+    .contact-heading {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+    }
+
+    .contact-icon {
+      width: 19px;
+      height: 19px;
+      flex-shrink: 0;
+      color: var(--accent);
     }
 
     .typewriter-cursor,
@@ -356,15 +542,15 @@
 
     .empty-section {
       min-height: 80px;
-      border-radius: 18px;
-      background: linear-gradient(135deg, transparent, var(--accent-soft));
+      border: 1px dashed var(--border);
     }
 
     .site-footer {
-      padding: 10px 20px 24px;
+      padding: 24px 20px;
       text-align: center;
       color: var(--muted);
       font-size: 0.85rem;
+      border-top: 1px solid var(--border);
     }
 
     .site-footer-quote-author {
@@ -374,14 +560,11 @@
     }
 
     @media (max-width: 760px) {
-      .site-header {
-        padding: 12px;
-      }
-
       .navbar {
         display: grid;
         grid-template-columns: 1fr auto;
         align-items: center;
+        padding: 14px 16px;
       }
 
       .brand {
@@ -393,8 +576,7 @@
       }
 
       .nav-bridge-line {
-        grid-column: 1 / -1;
-        width: 100%;
+        display: none;
       }
 
       .menu-toggle {
@@ -420,25 +602,31 @@
         max-height: 280px;
         opacity: 1;
         transform: translateY(0);
+        margin-top: 10px;
       }
 
       .nav-links a {
         padding: 10px 12px;
-        border-radius: 12px;
-        background: var(--accent-soft);
+        border-bottom: 1px solid var(--border);
       }
 
       .page-shell {
-        padding: 20px 12px 70px;
+        padding: 0 16px 70px;
       }
 
       .section-card {
-        padding: 24px 18px;
+        padding: 32px 0;
       }
 
       .about-grid,
       .contact-grid {
         grid-template-columns: 1fr;
+      }
+
+      .info-card + .info-card,
+      .contact-card + .contact-card {
+        padding-left: 0;
+        border-left: none;
       }
 
       .hero h1 {
@@ -451,9 +639,21 @@
 <body>
   <header class="site-header">
     <nav class="navbar" aria-label="Primary">
-      <a class="brand" href="#home">rice // Kartik Thotakura</a>
+      <a class="brand" href="#home">
+        <svg class="brand-logo" viewBox="0 0 64 64" aria-hidden="true">
+          <ellipse cx="32" cy="22" rx="25" ry="6" fill="none" stroke="currentColor" stroke-width="3.5"></ellipse>
+          <path d="M5 22c0 18 11 33 27 33s27-15 27-33" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round"></path>
+          <ellipse cx="19" cy="19.5" rx="4.2" ry="2.4" fill="#ffffff" transform="rotate(-18 19 19.5)"></ellipse>
+          <ellipse cx="32" cy="17.5" rx="4.2" ry="2.4" fill="#ffffff" transform="rotate(8 32 17.5)"></ellipse>
+          <ellipse cx="45" cy="19.5" rx="4.2" ry="2.4" fill="#ffffff" transform="rotate(-10 45 19.5)"></ellipse>
+          <ellipse cx="25" cy="24" rx="4.2" ry="2.4" fill="#ffffff" transform="rotate(15 25 24)"></ellipse>
+          <ellipse cx="39" cy="24" rx="4.2" ry="2.4" fill="#ffffff" transform="rotate(-15 39 24)"></ellipse>
+          <ellipse cx="32" cy="27" rx="4.2" ry="2.4" fill="#ffffff"></ellipse>
+        </svg>
+        rice // Kartik Thotakura
+      </a>
 
-      <span class="nav-bridge-line" aria-hidden="true"></span>
+      <span class="nav-bridge-line" aria-hidden="true"><span class="nav-bridge-fill" id="scrollFill"></span></span>
 
       <div class="nav-links" id="primary-nav">
         <a href="#home">Home</a>
@@ -464,6 +664,34 @@
       </div>
 
       <div class="nav-mobile-actions">
+        <div class="music-control">
+          <div class="volume-popover">
+            <input
+              class="volume-slider"
+              type="range"
+              min="0"
+              max="100"
+              value="50"
+              step="1"
+              orient="vertical"
+              aria-label="Volume"
+            >
+          </div>
+
+          <button class="music-toggle" type="button" aria-label="Play background music" aria-pressed="false">
+            <svg class="music-icon music-icon-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M11 5 6 9H3v6h3l5 4z"></path>
+              <path d="M16 8.5a5 5 0 0 1 0 7"></path>
+              <path d="M18.8 6a9 9 0 0 1 0 12"></path>
+            </svg>
+            <svg class="music-icon music-icon-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M11 5 6 9H3v6h3l5 4z"></path>
+              <path d="m16 9 6 6"></path>
+              <path d="m22 9-6 6"></path>
+            </svg>
+          </button>
+        </div>
+
         <button class="theme-toggle" type="button" aria-label="Toggle dark mode" aria-pressed="false">
           <span class="theme-toggle-track">
             <span class="theme-toggle-thumb"></span>
@@ -479,11 +707,15 @@
     </nav>
   </header>
 
+  <audio id="bgm" loop preload="none">
+    <source src="C:\Users\karti\Downloads\portfolio-website\1-18. Sweden.mp3" type="audio/mpeg">
+  </audio>
+
   <main class="page-shell">
     <section class="hero section-card" id="home">
       <p class="eyebrow">rice //</p>
-      <h1 class="typewriter" aria-label="driven by curiosity.">
-        <span class="typewriter-text" data-text="driven by curiosity."></span>
+      <h1 class="typewriter" aria-label="ideas don't count until they run.">
+        <span class="typewriter-text" data-text="ideas don't count until they run."></span>
         <span class="typewriter-cursor" aria-hidden="true">|</span>
       </h1>
       <p class="subheading">Soccer &bull; STEM &bull; Code</p>
@@ -524,6 +756,8 @@
             <button class="hobby-pill" type="button" data-hobby="chess">Chess</button>
             <button class="hobby-pill" type="button" data-hobby="piano">Piano</button>
             <button class="hobby-pill" type="button" data-hobby="cooking">Cooking &amp; Baking</button>
+            <button class="hobby-pill" type="button" data-hobby="travel">Travelling</button>
+            <button class="hobby-pill" type="button" data-hobby="reading">Reading</button>
           </div>
         </article>
       </div>
@@ -553,7 +787,13 @@
 
       <div class="contact-grid">
         <article class="contact-card">
-          <h3>Email</h3>
+          <h3 class="contact-heading">
+            <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="2.5" y="4.5" width="19" height="15" rx="2.5"></rect>
+              <path d="m3.5 6 8.5 7 8.5-7"></path>
+            </svg>
+            Email
+          </h3>
           <p>
             <a class="contact-link" href="mailto:kartikthotakura11@gmail.com">
               kartikthotakura11@gmail.com
@@ -562,7 +802,12 @@
         </article>
 
         <article class="contact-card">
-          <h3>GitHub</h3>
+          <h3 class="contact-heading">
+            <svg class="contact-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M12 1.5C6.2 1.5 1.5 6.2 1.5 12c0 4.66 3.02 8.62 7.21 10.02.53.1.72-.23.72-.51 0-.25-.01-1.08-.01-1.96-2.93.64-3.55-1.25-3.55-1.25-.48-1.22-1.17-1.55-1.17-1.55-.96-.65.07-.64.07-.64 1.06.07 1.62 1.09 1.62 1.09.94 1.61 2.47 1.15 3.07.88.1-.68.37-1.15.67-1.41-2.34-.27-4.8-1.17-4.8-5.2 0-1.15.41-2.09 1.08-2.82-.11-.27-.47-1.35.1-2.81 0 0 .88-.28 2.88 1.08a9.98 9.98 0 0 1 5.25 0c2-1.36 2.88-1.08 2.88-1.08.57 1.46.21 2.54.1 2.81.67.73 1.08 1.67 1.08 2.82 0 4.04-2.46 4.92-4.81 5.18.38.33.72.97.72 1.96 0 1.42-.01 2.56-.01 2.91 0 .28.19.62.73.51A10.51 10.51 0 0 0 22.5 12c0-5.8-4.7-10.5-10.5-10.5Z"></path>
+            </svg>
+            GitHub
+          </h3>
           <p>
             <a class="contact-link" href="https://github.com/ricefarmer1113" target="_blank" rel="noopener noreferrer">
               github.com/ricefarmer1113
@@ -571,7 +816,14 @@
         </article>
 
         <article class="contact-card">
-          <h3>Instagram</h3>
+          <h3 class="contact-heading">
+            <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="2.5" y="2.5" width="19" height="19" rx="5"></rect>
+              <circle cx="12" cy="12" r="4.4"></circle>
+              <circle cx="17.4" cy="6.6" r="1" fill="currentColor" stroke="none"></circle>
+            </svg>
+            Instagram
+          </h3>
           <p>
             <a class="contact-link" href="https://www.instagram.com/rxcekartik/" target="_blank" rel="noopener noreferrer">
               instagram.com/rxcekartik
@@ -591,6 +843,9 @@
   <script>
     const rootElement = document.documentElement;
     const themeToggle = document.querySelector(".theme-toggle");
+    const musicToggle = document.querySelector(".music-toggle");
+    const volumeSlider = document.querySelector(".volume-slider");
+    const bgm = document.getElementById("bgm");
     const menuToggle = document.querySelector(".menu-toggle");
     const navLinks = document.querySelector(".nav-links");
     const typewriterText = document.querySelector(".typewriter-text");
@@ -605,7 +860,9 @@
       math: "Math and physics give me the logic side of things, helping me connect theory to how the real world works.",
       chess: "Chess reflects how I like to think ahead, stay patient, and solve problems with strategy.",
       piano: "Piano fits my interest in discipline, pattern recognition, and building consistency over time.",
-      cooking: "Cooking and baking give me a creative process to follow while staying precise enough to get good results."
+      cooking: "Cooking and baking give me a creative process to follow while staying precise enough to get good results.",
+      travel: "Travelling gives me a different kind of curiosity — new places, cultures, and ways of doing things that I can't get from a screen.",
+      reading: "Reading is where a lot of my other interests start, whether it's something that sparks an idea for a project or just a good story."
     };
 
     const hobbyTitle = {
@@ -615,7 +872,9 @@
       math: "A Mathematician",
       chess: "A Strategist",
       piano: "A Pianist",
-      cooking: "A Chef"
+      cooking: "A Chef",
+      travel: "An Explorer",
+      reading: "A Reader"
     };
 
     function safeGetTheme() {
@@ -667,6 +926,38 @@
 
     applyTheme(preferredTheme());
 
+    if (musicToggle && bgm) {
+      bgm.volume = volumeSlider ? Number(volumeSlider.value) / 100 : 0.5;
+
+      if (volumeSlider) {
+        volumeSlider.addEventListener("input", () => {
+          bgm.volume = Number(volumeSlider.value) / 100;
+        });
+      }
+
+      musicToggle.addEventListener("click", () => {
+        if (bgm.paused) {
+          bgm.play().catch(() => {
+            // Playback can fail if the audio source isn't available yet.
+          });
+        } else {
+          bgm.pause();
+        }
+      });
+
+      bgm.addEventListener("play", () => {
+        musicToggle.classList.add("is-playing");
+        musicToggle.setAttribute("aria-pressed", "true");
+        musicToggle.setAttribute("aria-label", "Pause background music");
+      });
+
+      bgm.addEventListener("pause", () => {
+        musicToggle.classList.remove("is-playing");
+        musicToggle.setAttribute("aria-pressed", "false");
+        musicToggle.setAttribute("aria-label", "Play background music");
+      });
+    }
+
     if (menuToggle && navLinks) {
       menuToggle.addEventListener("click", () => {
         const isOpen = navLinks.classList.toggle("is-open");
@@ -687,7 +978,7 @@
     }
 
     function startTypewriter() {
-      const fullText = typewriterText.dataset.text || "driven by curiosity.";
+      const fullText = typewriterText.dataset.text || "ideas don't count until they run.";
       const cursor = document.querySelector(".typewriter-cursor");
       let index = 0;
 
@@ -814,6 +1105,27 @@
       });
     }
 
+    function startScrollProgress() {
+      const fill = document.getElementById("scrollFill");
+
+      if (!fill) {
+        return;
+      }
+
+      function updateFill() {
+        const scrollTop = window.scrollY || document.documentElement.scrollTop;
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const percent = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+
+        fill.style.width = Math.min(100, Math.max(0, percent)) + "%";
+      }
+
+      window.addEventListener("scroll", updateFill, { passive: true });
+      window.addEventListener("resize", updateFill);
+      updateFill();
+    }
+
+    startScrollProgress();
     startScrollReveal();
     startTypewriter();
   </script>
